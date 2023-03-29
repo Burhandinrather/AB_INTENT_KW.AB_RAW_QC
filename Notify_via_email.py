@@ -28,6 +28,7 @@ def send_mail(df,df1,df2,df3):
     
     df3['updated_date'] = pd.to_datetime(df3['updated_date'])
     df['updated_at'] = pd.to_datetime(df['updated_at'])
+    
     # Find the date of the most recent Sunday
     today = datetime.datetime.today()
     last_sunday = today - datetime.timedelta(days=today.weekday()+1)
@@ -37,13 +38,13 @@ def send_mail(df,df1,df2,df3):
     updated_at = df['updated_at'].iloc[0]
     today1 = datetime.datetime.today().date()
 
-#if we don't have the latest data present in AB_RAW Table then if block will get executed and will send us a text message
+    #if we don't have the latest data present in AB_RAW Table then if block will get executed and will send us a text message
     if updated_date_str != last_sunday.date().strftime("%Y-%m-%d") and updated_at.date() != today1:
         body_text4 = f'We do not have the latest data present till {last_sunday.date().strftime("%Y-%m-%d")}. The data is present till {updated_date_str} as the client has not uploaded the data this week'
     
     elif updated_date_str != last_sunday.date().strftime("%Y-%m-%d") and updated_at.date() == today1:
-# This else block will get executed if the client uploaded the data and if we  get the data in the AB_RAW Table
-# Set the email body text to include the dataframe information
+    # This else block will get executed if the client uploaded the data and if we  get the data in the AB_RAW Table
+    # Set the email body text to include the dataframe information
         if len(df) > 0:
             body_text1 = f'The Client has uploaded the data which has been loaded successfully on {df["updated_at"][0]}.\n The total Number of Rows loaded = {df["rows_loaded"][0]}\n Date Range: {df["min_date"][0]} to {df["max_date"][0]}\n The data is not the latest i.e., till {last_sunday.date().strftime("%Y-%m-%d")} \n'
         else:
@@ -79,8 +80,8 @@ def send_mail(df,df1,df2,df3):
                 file_name = os.path.basename(ext_file_location)
                 msg.attach(MIMEApplication(f.read(), Name=file_name))
     else:
-# This else block will get executed if we have got the latest data present in the AB_RAW Table
-# Set the email body text to include the dataframe information
+    # This else block will get executed if we have got the latest data present in the AB_RAW Table
+    # Set the email body text to include the dataframe information
         if len(df) > 0:
             body_text1 = f'The latest Data has been loaded successfully on {df["updated_at"][0]}.\n The total Number of Rows loaded = {df["rows_loaded"][0]}\n Date Range: {df["min_date"][0]} to {df["max_date"][0]}\n and is upto date till {last_sunday.date().strftime("%Y-%m-%d")}\n'
         else:
