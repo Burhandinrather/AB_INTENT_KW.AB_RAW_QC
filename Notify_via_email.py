@@ -33,8 +33,8 @@ def send_mail(df,df1,df2,df3):
     last_sunday = today - datetime.timedelta(days=today.weekday()+1)
 
     # Check if the date in the DataFrame is equal to last Sunday's date
-    updated_date_str = df3['updated_date'].dt.strftime('%Y-%m-%d').iloc[0]
-    if updated_date_str != last_sunday.date().strftime('%Y-%m-%d'):
+    updated_date_str = df3['updated_date'].dt.strftime("%Y-%m-%d").iloc[0]
+    if updated_date_str != last_sunday.date().strftime("%Y-%m-%d"):
         body_text4 = f'We do not have the latest data present till {last_sunday.date().strftime("%Y-%m-%d")}. The latest data is present till {updated_date_str}.'
     else:
         
