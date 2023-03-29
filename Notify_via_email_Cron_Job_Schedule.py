@@ -24,7 +24,7 @@ def send_mail(df,df1,df2,df3):
     msg = MIMEMultipart()
     msg['Subject'] = 'Audience Bridge QC'
     msg['From'] = 'ratherburhan101@gmail.com'
-    msg['To'] = ("burhan.din@transmissionagency.com")
+    msg['To'] = ("burhan.din@transmissionagency.com","claire.gardner@transmissionagency.com","aniketk@transmissionagency.com")
     
     df3['updated_date'] = pd.to_datetime(df3['updated_date'])
     df['updated_at'] = pd.to_datetime(df['updated_at'])
@@ -41,6 +41,7 @@ def send_mail(df,df1,df2,df3):
     #if we don't have the latest data present in AB_RAW Table then if block will get executed and will send us a text message
     if updated_date_str != last_sunday.date().strftime("%Y-%m-%d") and updated_at.date() != today1:
         body_text4 = f'We do not have the latest data present till {last_sunday.date().strftime("%Y-%m-%d")}. The data is present till {updated_date_str} as the client has not uploaded the data this week'
+    
     elif updated_date_str != last_sunday.date().strftime("%Y-%m-%d") and updated_at.date() == today1:
     # This else block will get executed if the client uploaded the data and if we  get the data in the AB_RAW Table
     # Set the email body text to include the dataframe information
