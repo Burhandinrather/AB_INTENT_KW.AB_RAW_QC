@@ -130,7 +130,7 @@ def send_mail(df,df1,df2,df3):
 
     with smtplib.SMTP('smtp.gmail.com',587) as smtp:
         smtp.starttls()
-        smtp.login('ratherburhan101@gmail.com', 'saxpbdmmeycvgbtx')
+        smtp.login('ratherburhan101@gmail.com', 'xxxxxxxxxxxxxxxxxxxxxx')
         smtp.send_message(msg)
         print('Mail sent')
 
