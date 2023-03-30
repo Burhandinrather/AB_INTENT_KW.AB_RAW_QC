@@ -24,7 +24,7 @@ def send_mail(df,df1,df2,df3):
     msg = MIMEMultipart()
     msg['Subject'] = 'Audience Bridge QC'
     msg['From'] = 'ratherburhan101@gmail.com'
-    msg['To'] = ("burhan.din@transmissionagency.com","claire.gardner@transmissionagency.com","aniketk@transmissionagency.com")
+    msg['To'] = ("burhan.din@transmissionagency.com,claire.gardner@transmissionagency.com,aniketk@transmissionagency.com")
     
     df3['updated_date'] = pd.to_datetime(df3['updated_date'])
     df['updated_at'] = pd.to_datetime(df['updated_at'])
