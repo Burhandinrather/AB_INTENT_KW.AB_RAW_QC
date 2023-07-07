@@ -12,7 +12,7 @@ import datetime
 engine = create_engine(URL(
    account='nua76068.us-east-1',
    user='BURHAND',
-   password='Core@123',
+   password='xxxxxxxxxxxxx',
    database='AB_INTENT_KW',
    schema='INBOUND',
    warehouse='COMPUTE_WH',
