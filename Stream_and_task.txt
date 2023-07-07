@@ -1,0 +1,27 @@
+-------create streams and tasks to get the update regarding latest data
+
+Create or replace table 
+AB_INTENT_KW.INBOUND.AB_RAW_INFO(
+  ID INTEGER AUTOINCREMENT(1, 1),ROWS_LOADED INTEGER, MIN_DATE varchar(100), MAX_DATE VARCHAR(100), UPDATED_AT DATE)
+
+select * from AB_INTENT_KW.INBOUND.AB_RAW_INFO
+
+--Create a Stream  
+create or replace stream STREAM_AB_RAW on table AB_INTENT_KW.INBOUND.AB_RAW;
+
+--Create a Task and check the data in AB_INTENT_KW.INBOUND.AB_RAW_INFO
+create or replace task AB_RAW_TASK warehouse = COMPUTE_WH schedule = '1 minute'
+when system$stream_has_data('STREAM_AB_RAW')
+as 
+Insert into AB_INTENT_KW.INBOUND.AB_RAW_INFO (ROWS_LOADED, MIN_DATE, MAX_DATE, UPDATED_AT)
+Select (select count(*) from STREAM_AB_RAW), DATE(min(TIMESTAMP)), DATE(max(TIMESTAMP)),
+(SELECT DATE(CONVERT_TIMEZONE('Asia/Kolkata', CURRENT_TIMESTAMP))) from STREAM_AB_RAW;
+
+alter task AB_RAW_TASK resume;
+
+
+select count(*) as ROWS_LOADED, Min(date(timestamp)) as MIN_DATE,Max(date(timestamp)) as MAX_DATE,
+(select MAX(UPDATED_AT) from AB_INTENT_KW.INBOUND.AB_RAW_INFO ORDER BY ID DESC LIMIT 1) AS UPDATED_AT from
+AB_INTENT_KW.INBOUND.AB_RAW 
+where date(timestamp) BETWEEN (select date(MAX_DATE)+1 from AB_INTENT_KW.INBOUND.AB_RAW_INFO ORDER BY ID DESC LIMIT 1)
+AND  (select MAX(date(timestamp)) from AB_INTENT_KW.INBOUND.AB_RAW);
